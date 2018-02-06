@@ -2,7 +2,12 @@
 #include<math.h>
 
 // The program will not function properly if you 
-// enter a very large number. It will lag or 'hang' 
+// enter a very large number, or enter a number 
+// such that prime^somenumber is large.
+// (I am pretty sure it starts to fail at the 
+// prime 41, since somewhere the calculation exceeds the 
+// largest integer possible). 
+// It will lag or 'hang' 
 // for a very long time depending on the number you
 // enter.
 
