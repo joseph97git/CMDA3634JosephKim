@@ -3,9 +3,9 @@
 
 // The program will not function properly if you 
 // enter a number greater than the largest int
-// possible, 2147483647. Other than that, it 
-// will function properly without any sort of 
-// lag or 'hang' due to computational load.
+// possible, 2147483647. It will experience some
+// lag or 'hang' time if you enter very large 
+// numbers.
 
 int checkPrime(int num);
 char* isPrime(int check);

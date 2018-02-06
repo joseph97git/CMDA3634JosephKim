@@ -2,12 +2,12 @@
 #include<math.h>
 
 // The program will not function properly if you 
-// enter a number greater than the largest int
-// possible, 2147483647. Other than that, it 
-// will function properly without any sort of 
-// lag or 'hang' due to computational load.
+// enter a very large number. It will lag or 'hang' 
+// for a very long time depending on the number you
+// enter.
 
-int findGen(int num);
+int findGen(int prime);
+int checkGen(int num, int prime);
 
 int p;
 
@@ -17,12 +17,23 @@ int main(void) {
 	printf("%d is a generator of Z_%d.\n", findGen(p), p);
 }
 
-int findGen(int num) {
-	for (int j=1;j<=p-1;j++) {
-		for (int i=1;i<p-1;i++) {
-			if (pow((double)j,(double)i) != 1) {
-				return j;
-			}
+int findGen(int prime) {
+	for (int j=1;j<=prime-1;j++) {
+		if (checkGen(j,prime) == 1) {
+			return j;
 		}
 	}
+	return -1; //indicates there is an error
+    		   //by definition there should exist
+			   //at least one generator.
 }
+
+int checkGen(int num, int prime) {
+	for (int i=1;i<prime-1;i++) {
+			if ((int)pow((double)num,(double)i) % prime == 1) {
+				return 0;
+			}
+		}
+	return 1;
+}
+
