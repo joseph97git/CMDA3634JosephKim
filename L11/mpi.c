@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
+#include "mpi.h"
 int main(int argc, char **argv) {
 	
 	MPI_Init(&argc,&argv);
@@ -43,7 +43,7 @@ MPI_Barrier(MPI_COMM_WORLD);
 	float average = global_sum / size;
 
 		if (rank==0) {
-  			printf("Our estimate of pi is %f \n", average);
+  			printf("Our estimate of pi is %f \n", pi);
 		}
 		MPI_Barrier(MPI_COMM_WORLD);
 
