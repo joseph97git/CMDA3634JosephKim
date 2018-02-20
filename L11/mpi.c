@@ -3,13 +3,19 @@
 #include <math.h>
 
 int main(int argc, char **argv) {
+	
+	MPI_Init(&argc,&argv);
+
+	int rank,size;
+	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+	MPI_Comm_size(MPI_COMM_WORLD,&size);
 
   //need running tallies
   long long int Ntotal;
   long long int Ncircle;
 
   //seed random number generator
-  double seed = 1.0;
+  double seed = rank;
   srand48(seed);
 
   for (long long int n=0; n<1000000000;n++) {
@@ -26,8 +32,21 @@ int main(int argc, char **argv) {
   }
 
   double pi = 4.0*Ncircle/ (double) Ntotal;
+	
+/* MPI Barrier */
+MPI_Barrier(MPI_COMM_WORLD);
 
-  printf("Our estimate of pi is %f \n", pi);
+	float global_sum;
 
+	MPI_Allreduce(&pi, &global_sum, 1, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
+
+	float average = global_sum / size;
+
+		if (rank==0) {
+  			printf("Our estimate of pi is %f \n", average);
+		}
+		MPI_Barrier(MPI_COMM_WORLD);
+
+	MPI_Finalize();
   return 0;
 }
