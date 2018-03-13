@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
   //seed random number generator
   // Q2b: get the number of threads to run with from agrv and 
   // add OpenMP API code to set number of threads here
-  int Nthreads = atoi(argv[1]);
+  int Nthreads = atoi(*argv);
   omp_set_num_threads(Nthreads);  
   
   int rank = omp_get_thread_num();
@@ -28,8 +28,8 @@ int main(int argc, char **argv) {
   //      one entry in drandData using srand48_r and seed based on thread number
   #pragma omp parallel shared(drandData) reduction(+:Ncircle)
   {  
-    long int seed = time(rank);
-    drandData[rank] = (struct drand48_data)srand48_r(seed);
+    long int seed = rank;
+    srand48_r(seed, drandData+0);
 
     long long int Ntrials = 10000000;
 	
