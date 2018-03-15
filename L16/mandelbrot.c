@@ -99,8 +99,8 @@ int main(int argc, char **argv){
   float *count = (float*) malloc(Nre*Nim*sizeof(float));
 
   // Parameters for a bounding box for "c" that generates an interesting image
-  const float centRe = -.759856, centIm= .125547;
-  const float diam  = 0.151579;
+  const float centRe = -.4, centIm= .89765;
+  const float diam  = 0.3563;
 
   complex_t cmin; 
   complex_t cmax;
