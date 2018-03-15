@@ -1,0 +1,1 @@
+The plot shows that the speed increased by a factor of 12 from using 1 thread compared to using 16 threads.
