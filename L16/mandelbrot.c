@@ -23,8 +23,6 @@ To create an image with 4096 x 4096 pixels (last argument will be used to set nu
 // Q2a: add include for OpenMP header file here:
 #include <omp.h> 
 
-omp_set_num_threads(atoi(argv[argc-1]));
-
 #define MXITER 1000
 
 typedef struct {
@@ -72,7 +70,7 @@ void  mandelbrot(int Nre, int Nim, complex_t cmin, complex_t cmax, float *count)
   double di = (cmax.i-cmin.i)/(Nim-1);;
 
   // Q2c: add a compiler directive to split the outer for loop amongst threads here
- #pragma omp for 
+ #pragma omp parallel for private(m,c) shared(dr,di) 
  for(n=0;n<Nim;++n){
     for(m=0;m<Nre;++m){
       c.r = cmin.r + dr*m;
@@ -96,7 +94,7 @@ int main(int argc, char **argv){
   int Nthreads = atoi(argv[3]);
 
   // Q2b: set the number of OpenMP threads to be Nthreads here:
-
+  omp_set_num_threads(atoi(argv[argc-1]));
   // storage for the iteration counts
   float *count = (float*) malloc(Nre*Nim*sizeof(float));
 
