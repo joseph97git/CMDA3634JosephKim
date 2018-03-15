@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
   // Q2b: get the number of threads to run with from agrv and 
   // add OpenMP API code to set number of threads here
   int Nthreads = atoi(*argv);
-  omp_set_num_threads(Nthreads);  
+  omp_set_num_threads(4);  
   
   int rank = omp_get_thread_num();
   int size = omp_get_num_threads();
