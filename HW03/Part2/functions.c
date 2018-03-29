@@ -126,7 +126,6 @@ void setupElGamal(unsigned int n, unsigned int *p, unsigned int *g,
   *p = randXbitInt(n);
   while (isProbablyPrime(*p)==0) { *p = randXbitInt(n); }
   *g = findGenerator(*p);
-  while  (isProbablyPrime(*g)==0) { *g = findGenerator(*p); }
   *x = randXbitInt(32) % *p;
   *h = 1;
   for (int i=0;i<*x;i++) { *h = *h * *g; } // compute h = g^x 
