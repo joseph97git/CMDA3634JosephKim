@@ -76,18 +76,18 @@ int main (int argc, char **argv) {
 
   double startTime = MPI_Wtime();
   int iter = end; // loop will iterate to end if key not found
-  //int checkKey = 0;
-  //int Ninterval = 3;
+  int checkKey = 0;
+  int Ninterval = 3;
 
   //loop through the values from 'start' to 'end'
   for (unsigned int i=start;i<end;i++) {
     if (modExp(g,i+1,p)==h) {
       printf("Secret key found! x = %u \n", i+1); 
       iter = i; // if key is found keep iteration index
-      //checkKey = 1; // activate checkKey
+      checkKey = 1; // activate checkKey
     }
     // break loop only when Key was found and on an Ninterval
-    //if ((checkKey == 1) && (i % Ninterval == 0)) { break; }
+    if ((checkKey == 1) && (i % Ninterval == 0)) { break; }
   }
 
   double endTime = MPI_Wtime();
