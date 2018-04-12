@@ -87,12 +87,19 @@ int main (int argc, char **argv) {
   printf("Using %d OpenMP threads to find the secret key...\n", Nthreads);
 
   /* Q2.3 Parallelize this loop with OpenMP   */
+   
   double startTime = omp_get_wtime();
-  for (unsigned int i=0;i<p-1;i++) {
-    if (modExp(g,i+1,p)==h) {
-      printf("Secret key found! x = %u \n", i);
-    } 
-  }
+
+    #pragma omp parallel for
+    for (unsigned int i=0;i<p-1;i++) {
+		#pragma omp critical 
+		{
+          if (modExp(g,i+1,p)==h) {
+            printf("Secret key found! x = %u \n", i);
+          }
+        }
+    }
+  
   double endTime = omp_get_wtime();
 
   double totalTime = endTime-startTime;

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include "omp.h"
 
 #include "functions.h"
 
@@ -246,6 +247,7 @@ void convertZToString(unsigned int  *Z,      unsigned int Nints,
   for (int i=0;i<Nints; i++) {
 	  unsigned int shiftFactor = Nchars / Nints;
 	  unsigned int p = *num;
+	  #pragma omp parallel for
 	  for (int j=0;j<charsPerInt;j++) {
 		  unsigned int base = 0xFF;
 		  unsigned int mask = base << (8 * (shiftFactor-1));
