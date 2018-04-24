@@ -8,25 +8,8 @@
 #include "cuda.h"
 #include "functions.c"
 
-//device functions
-__global__ void kernelFindKey(unsigned int n, unsigned int p,
-							  unsigned int g, unsigned int h,
-							  unsigned int* x) {
-	
-	int threadid = threadIdx.x; //thread number
-	int blockid = blockIdx.x; //block number
-	int Nblock = blockDim.x; //number of threads in a block
-	
-	int id = threadid + blockid*Nblock;
-	
-	// find the secret key 
-      if (kernelModExp(g,id+1,p)==h) {
-        printf("Secret key found! x = %u \n", id+1);
-        *x=id+1;
-      } 
 
- 
-}
+//device functions
 
 //compute a*b mod p safely
 __device__ unsigned int kernelModProd(unsigned int a, unsigned int b, unsigned int p) {
@@ -53,6 +36,28 @@ __device__ unsigned int kernelModExp(unsigned int a, unsigned int b, unsigned in
   }
   return aExpb;
 }
+
+
+__global__ void kernelFindKey(unsigned int n, unsigned int p,
+							  unsigned int g, unsigned int h,
+							  unsigned int* x) {
+	
+	int threadid = threadIdx.x; //thread number
+	int blockid = blockIdx.x; //block number
+	int Nblock = blockDim.x; //number of threads in a block
+	
+	int id = threadid + blockid*Nblock;
+	
+	// find the secret key 
+      if (kernelModExp(g,id+1,p)==h) {
+        printf("Secret key found! x = %u \n", id+1);
+        *x=id+1;
+      } 
+
+ 
+}
+
+
 
 int main (int argc, char **argv) {
 
