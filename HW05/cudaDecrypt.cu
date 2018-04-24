@@ -30,7 +30,7 @@ __device__ unsigned int kernelModExp(unsigned int a, unsigned int b, unsigned in
   unsigned int aExpb = 1;
 
   while (b > 0) {
-    if (b%2 == 1) aExpb = modprod(aExpb, z, p);
+    if (b%2 == 1) aExpb = kernelModProd(aExpb, z, p);
     z = kernelModProd(z, z, p);
     b /= 2;
   }
