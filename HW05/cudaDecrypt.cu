@@ -20,7 +20,7 @@ __global__ void kernelFindKey(unsigned int n, unsigned int p,
 	int id = threadid + blockid*Nblock;
 	
 	// find the secret key 
-      if (modExp(g,id+1,p)==h) {
+      if (kernelModExp(g,id+1,p)==h) {
         printf("Secret key found! x = %u \n", id+1);
         *x=id+1;
       } 
@@ -29,7 +29,7 @@ __global__ void kernelFindKey(unsigned int n, unsigned int p,
 }
 
 //compute a*b mod p safely
-unsigned int kernelModProd(unsigned int a, unsigned int b, unsigned int p) {
+__device__ unsigned int kernelModProd(unsigned int a, unsigned int b, unsigned int p) {
   unsigned int za = a;
   unsigned int ab = 0;
 
@@ -42,13 +42,13 @@ unsigned int kernelModProd(unsigned int a, unsigned int b, unsigned int p) {
 }
 
 //compute a^b mod p safely
-__global__ unsigned int kernelModExp(unsigned int a, unsigned int b, unsigned int p) {
+__device__ unsigned int kernelModExp(unsigned int a, unsigned int b, unsigned int p) {
   unsigned int z = a;
   unsigned int aExpb = 1;
 
   while (b > 0) {
     if (b%2 == 1) aExpb = modprod(aExpb, z, p);
-    z = modprod(z, z, p);
+    z = kernelModProd(z, z, p);
     b /= 2;
   }
   return aExpb;
@@ -92,18 +92,13 @@ int main (int argc, char **argv) {
   /* Q4 Make the search for the secret key parallel on the GPU using CUDA. */
 
   //allocate storage on host
-  double *h_result = (double *) malloc(sizeof(double));
+  unsigned int *h_result = (unsigned int *) malloc(sizeof(unsigned int));
  
   h_result[0] = x; //define h_result as the 
- 
-  //populate storage primes
-  for (int i=0;i<=p-1;i++) {
-	  h_primes[i] = i;
-  }
   
   //allocate storage on device
-  double *d_result;
-  cudaMalloc(&d_result, sizeof(double));
+  unsigned int *d_result;
+  cudaMalloc(&d_result, sizeof(unsigned int));
   
   //define thread and block size
   int Nthreads = 32;
@@ -121,6 +116,8 @@ int main (int argc, char **argv) {
     double work = (double) p;
     double throughput = work/totalTime;
     
+    printf("Searching all keys took %g seconds, throughput was %g values tested per second.\n", totalTime, throughput);
+
     cudaDeviceSynchronize();
   }
   //copy answer from device back to the host
