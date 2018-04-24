@@ -147,9 +147,15 @@ int main (int argc, char **argv) {
   
   ElGamalDecrypt(Zmessage,a,Nints,p,x);
   
-  for (int j=0;j<Nints;j++) {
-	printf("%d ", Zmessage[j]);
-  }
+  unsigned int charsPerInt = (n-1)/8;
+  unsigned int Nchars = Nints * charsPerInt;
+  
+  int bufferSize = 1024;
+  unsigned char *message = (unsigned char *) malloc(bufferSize*sizeof(unsigned char));
+  
+  convertZToString(Zmessage, Nints, message, Nchars);
+
+  printf("Decrypted Message = \"%s\"\n", message);
   printf("\n");
   
   cudaFree(d_result);
