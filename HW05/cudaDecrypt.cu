@@ -48,6 +48,7 @@ __global__ void kernelFindKey(unsigned int n, unsigned int p,
 	
 	int id = threadid + blockid*Nblock;
 	
+	
 	// find the secret key 
       if (kernelModExp(g,id+1,p)==h) {
         printf("Secret key found! x = %u \n", id+1);
@@ -111,15 +112,12 @@ int main (int argc, char **argv) {
   
    if (x==0 || modExp(g,x,p)!=h) {
 	   
-	double startTime = clock();
+	
 	   
     printf("Finding the secret key...\n");
     kernelFindKey <<<Nblocks,Nthreads>>>(n,p,g,h,d_result);
   
-    double endTime = clock();
-    double totalTime = (endTime-startTime)/CLOCKS_PER_SEC;
-    double work = (double) p;
-    double throughput = work/totalTime;
+   
     
     printf("Searching all keys took %g seconds, throughput was %g values tested per second.\n", totalTime, throughput);
   }
