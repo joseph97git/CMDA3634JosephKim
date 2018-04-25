@@ -117,9 +117,7 @@ int main (int argc, char **argv) {
     printf("Finding the secret key...\n");
     kernelFindKey <<<Nblocks,Nthreads>>>(n,p,g,h,d_result);
   
-   
-    
-    printf("Searching all keys took %g seconds, throughput was %g values tested per second.\n", totalTime, throughput);
+ 
   }
   //copy answer from device back to the host
   cudaMemcpy(h_result,d_result,sizeof(double),cudaMemcpyDeviceToHost);
