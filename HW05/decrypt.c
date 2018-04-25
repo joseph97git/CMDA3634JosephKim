@@ -8,7 +8,7 @@
 
 
 int main (int argc, char **argv) {
-
+  
   //declare storage for an ElGamal cryptosytem
   unsigned int n, p, g, h, x;
   unsigned int Nints;

@@ -122,8 +122,6 @@ int main (int argc, char **argv) {
     double throughput = work/totalTime;
     
     printf("Searching all keys took %g seconds, throughput was %g values tested per second.\n", totalTime, throughput);
-
-    cudaDeviceSynchronize();
   }
   //copy answer from device back to the host
   cudaMemcpy(h_result,d_result,sizeof(double),cudaMemcpyDeviceToHost);
