@@ -113,12 +113,19 @@ int main (int argc, char **argv) {
    if (x==0 || modExp(g,x,p)!=h) {
 	   
 	
-	   
+    double startTime = clock();  
     printf("Finding the secret key...\n");
     kernelFindKey <<<Nblocks,Nthreads>>>(n,p,g,h,d_result);
   
- 
-  }
+    cudaDeviceSynchronize(); 
+    double endTime = clock();
+    
+    double totalTime = (endTime-startTime)/CLOCKS_PER_SEC;
+    double work = (double) p;
+    double throughput = work/totalTime;
+    
+    printf("Searching all keys took %g seconds, throughput was %g values tested per second.\n", totalTime, throughput);
+  }  
   //copy answer from device back to the host
   cudaMemcpy(h_result,d_result,sizeof(double),cudaMemcpyDeviceToHost);
   x = h_result[0]; //redefine x 
@@ -145,7 +152,7 @@ int main (int argc, char **argv) {
   unsigned int Nchars = Nints * charsPerInt;
   
   int bufferSize = 1024;
-  unsigned char *message = (unsigned char *) malloc(bufferSize*sizeof(unsigned char));
+  unsigned char *message = (unsigned char *) calloc(bufferSize,sizeof(unsigned char));
   
   convertZToString(Zmessage, Nints, message, Nchars);
 
