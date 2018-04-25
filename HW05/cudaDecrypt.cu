@@ -106,7 +106,7 @@ int main (int argc, char **argv) {
   cudaMalloc(&d_result, sizeof(unsigned int));
   
   //define thread and block size
-  int Nthreads = 32;
+  int Nthreads = 64;
   int Nblocks = (p+Nthreads-1)/Nthreads;
   
    if (x==0 || modExp(g,x,p)!=h) {
