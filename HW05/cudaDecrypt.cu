@@ -48,13 +48,13 @@ __global__ void kernelFindKey(unsigned int n, unsigned int p,
 	
 	int id = threadid + blockid*Nblock;
 	
-	
+      	
 	// find the secret key 
       if (kernelModExp(g,id+1,p)==h) {
         printf("Secret key found! x = %u \n", id+1);
         *x=id+1;
       } 
-
+      __syncthreads();
  
 }
 

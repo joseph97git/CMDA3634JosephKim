@@ -9,12 +9,12 @@ SOURCE = functions.c
 OBJECTS = $(subst $(SOURCEDIR)/,$(OBJDIR)/,$(SOURCE:.c=.o))
 
 DEPS = $(INCLUDES) 
-FLAGS = -I$(INCLUDEDIR) -g -O3 
+FLAGS = -I$(INCLUDEDIR) -g -O3
 NVFLAGS = -arch=sm_60
-LIBS  = -lm
+LIBS = -lm
 
-CC =  gcc
-NVCC =  nvcc
+CC = gcc
+NVCC = nvcc
 
 $(OBJDIR)/%.o:$(SOURCEDIR)/%.cu $(DEPS)
 	$(CC) $(FLAGS) -o $@ $(LIBS) -c $<
