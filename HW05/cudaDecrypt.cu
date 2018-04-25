@@ -48,7 +48,7 @@ __global__ void kernelFindKey(unsigned int n, unsigned int p,
 	
 	int id = threadid + blockid*Nblock;
 	
-      	
+     	
 	// find the secret key 
       if (kernelModExp(g,id+1,p)==h) {
         printf("Secret key found! x = %u \n", id+1);
@@ -98,9 +98,7 @@ int main (int argc, char **argv) {
   /* Q4 Make the search for the secret key parallel on the GPU using CUDA. */
 
   //allocate storage on host
-  unsigned int *h_result = (unsigned int *) malloc(sizeof(unsigned int));
- 
-  h_result[0] = x; //define h_result as the 
+  unsigned int *h_result = (unsigned int *) malloc(sizeof(unsigned int)); 
   
   //allocate storage on device
   unsigned int *d_result;
@@ -127,10 +125,10 @@ int main (int argc, char **argv) {
     printf("Searching all keys took %g seconds, throughput was %g values tested per second.\n", totalTime, throughput);
   }  
   //copy answer from device back to the host
-  cudaMemcpy(h_result,d_result,sizeof(double),cudaMemcpyDeviceToHost);
+  cudaMemcpy(h_result,d_result,sizeof(unsigned int),cudaMemcpyDeviceToHost);
   x = h_result[0]; //redefine x 
   
-  
+   printf("The returned value of x was: %d\n", x); 
   /* Q3 After finding the secret key, decrypt the message */
   
   //storage for message as elements of Z_p
