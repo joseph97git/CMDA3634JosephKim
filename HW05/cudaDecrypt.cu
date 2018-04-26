@@ -128,7 +128,7 @@ int main (int argc, char **argv) {
   cudaMemcpy(h_result,d_result,sizeof(unsigned int),cudaMemcpyDeviceToHost);
   x = h_result[0]; //redefine x 
   
-   printf("The returned value of x was: %d\n", x); 
+ 
   /* Q3 After finding the secret key, decrypt the message */
   
   //storage for message as elements of Z_p
